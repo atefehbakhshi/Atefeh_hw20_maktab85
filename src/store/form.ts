@@ -1,19 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { InitialFormState } from "../type/interface";
 
-const initialFormState = {
-  name: "",
-  email: "",
-  position: "",
-  phone: "",
-  resume: "",
+const initialFormState: InitialFormState = {
+  userInfo: {
+    name: "",
+    email: "",
+    position: "",
+    phone: 0,
+    resume: {
+      name: "",
+      format: "",
+    },
+  },
+  auth: false,
 };
 
 const formSlice = createSlice({
   name: "form",
   initialState: initialFormState,
   reducers: {
-    showUserInfo(state, action) {
-      console.log(action.payload);
+    showUserInfo(state, action: PayloadAction<InitialFormState>) {
+      state.userInfo = action.payload.userInfo;
+      state.auth = action.payload.auth;
     },
   },
 });

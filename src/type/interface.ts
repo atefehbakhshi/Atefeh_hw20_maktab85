@@ -16,7 +16,27 @@ export interface InputType {
   isValid?: boolean;
 }
 
-export interface selectedFile {
+export interface Resume {
   name?: string;
   format?: string;
+}
+
+// Item
+export interface Item {
+  title?: string;
+  value?: string | number;
+}
+
+// store
+export interface UserInfo {
+  name: string;
+  email: string;
+  position: string;
+  phone: number;
+  resume: Resume;
+}
+
+export interface InitialFormState {
+  userInfo: UserInfo;
+  auth: boolean;
 }

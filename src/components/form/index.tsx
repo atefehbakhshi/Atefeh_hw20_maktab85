@@ -1,6 +1,7 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { formActions } from "../../store/form";
+import { Resume } from "../../type/interface";
 import useInput from "../../hooks/use-input";
 import Input from "./Input";
 
@@ -10,10 +11,9 @@ import {
   namePattern,
   phonePattern,
 } from "../../validation/validPatterns";
-import inputObject from "./inputObj";
-import { selectedFile } from "../../type/interface";
+import inputObject from "./inputObject";
 
-const Form = () => {
+const Form: FC = () => {
   const [entredResume, setEntredResum] = useState({});
   const dispatch = useDispatch();
 
@@ -50,7 +50,7 @@ const Form = () => {
     const fileInfo = event.target.value.split(/(\\|\/)/g).pop();
     const completedName: string[] | undefined = fileInfo?.split(".");
 
-    const info: selectedFile = {
+    const info: Resume = {
       name: completedName && completedName[0],
       format: completedName && completedName[1],
     };
@@ -62,15 +62,15 @@ const Form = () => {
     event.preventDefault();
 
     if (isNameValid && isPhoneValid && isPhoneValid && isPositionValid) {
-      dispatch(
-        formActions.showUserInfo({
-          name: entredName,
-          email: entredEmail,
-          position: entredPosition,
-          phone: entredPhone,
-          resume: entredResume,
-        })
-      );
+      const userInfo = {
+        name: entredName,
+        email: entredEmail,
+        position: entredPosition,
+        phone: Number(entredPhone),
+        resume: entredResume,
+      };
+      const auth = true;
+      dispatch(formActions.showUserInfo({ userInfo, auth }));
     }
   };
 
